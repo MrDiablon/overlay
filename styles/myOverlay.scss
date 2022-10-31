@@ -1,0 +1,126 @@
+@import "./variable.scss";
+
+.text {
+  font-family: $font;
+  color: $white;
+  font-size: 45px;
+  text-shadow: 0 0 1px black;
+}
+
+.white-svg {
+  fill: $white;
+  stroke-width: $stroke;
+}
+
+.bottom-right {
+  flex-direction: row-reverse;
+
+  #time-container,
+  #data-container {
+    background: linear-gradient(to left, $violet, $red);
+  }
+
+  #time-container {
+    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  #data-container {
+    clip-path: polygon(2% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: translateX(5%);
+  }
+
+  #block-container {
+    border-image: linear-gradient(to left, $red, $violet 25%, rgba(0, 0, 0, 0))
+      1;
+    background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0.5) 1%,
+      rgba(0, 0, 0, 0)
+    );
+    transform: translateX(7%);
+  }
+}
+
+.bottom-left {
+  #time-container,
+  #data-container {
+    background: linear-gradient(to right, $violet, $red);
+  }
+
+  #time-container {
+    clip-path: polygon(0% 0%, 90% 0%, 100% 100%, 0% 100%);
+  }
+
+  #data-container {
+    clip-path: polygon(0% 0%, 98% 0%, 100% 100%, 0% 100%);
+    transform: translateX(-5%);
+  }
+
+  #block-container {
+    border-image: linear-gradient(to right, $red, $violet 25%, rgba(0, 0, 0, 0))
+      1;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.5) 1%,
+      rgba(0, 0, 0, 0)
+    );
+    transform: translateX(-7%);
+  }
+}
+
+#bottom {
+  position: fixed;
+  bottom: 0px;
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+
+  #time-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0.7;
+    z-index: 3;
+    height: 100%;
+  }
+
+  #data-container {
+    flex: 3;
+    z-index: 2;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 90%;
+
+    .svg-container {
+      display: flex;
+      align-items: center;
+    }
+
+    #viewer,
+    #follow {
+      span {
+        margin-left: 5px;
+      }
+      svg {
+        margin-right: 10%;
+      }
+    }
+  }
+
+  #block-container {
+    position: relative;
+    flex: 3;
+    height: 81%;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+  }
+
+  .particle {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    position: absolute;
+  }
+}
