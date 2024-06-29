@@ -11,17 +11,24 @@
       media="screen"
       href="./styles/myOverlay.css"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="scripts/main/myOverlay.js"></script>
+    <script src="scripts/main/3D.js"></script>
     <!-- <script src='scripts/main/particle.js'></script> -->
     <script src="scripts/constant/twitch.js"></script>
     <script src="scripts/constant/enum.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div id="bottom">
-      <div id="time-container">
-        <div id="time" class="text"></div>
+      <div id="clock-container">
+        <img style="transform: translate(-45.5%, 2%) rotate(5deg) scale(1.2);" id="min-clock" class="clock" src="images/60m-clock.png" />
+        <img style="transform: translate(-48%, -8%) rotate(5deg) scale(0.9);" id="hour-clock" class="clock" src="images/24h-clock.png" />
       </div>
+
+      <!--<div id="time-container">
+        <div id="time" class="text"></div>
+      </div>-->
       <div id="data-container">
         <div id="viewer" class="text svg-container">
           <svg
@@ -39,8 +46,8 @@
               d="M32 40c4.411 0 8-3.589 8-8s-3.589-8-8-8-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
             />
           </svg>
-          <iframe class="viewer-frame" width="92" height="60" src="https://botrix.live/widgets/viewers/?platform=twitch&bid=cVknB7KumcW2xXfdHXi3wA&font=Arial&c=0101017f#ffffff"></iframe>
-          <iframe class="viewer-frame" width="92" height="60" src="https://botrix.live/widgets/viewers/?platform=kick&bid=cVknB7KumcW2xXfdHXi3wA&font=Arial&c=0101017f#ffffff"></iframe>
+          <iframe class="viewer-frame" width="100" height="60" src="https://botrix.live/widgets/viewers/?platform=twitch&bid=cVknB7KumcW2xXfdHXi3wA&font=Arial&c=0101017f#ffffff"></iframe>
+          <iframe class="viewer-frame" width="100" height="60" src="https://botrix.live/widgets/viewers/?platform=kick&bid=cVknB7KumcW2xXfdHXi3wA&font=Arial&c=0101017f#ffffff"></iframe>
         </div>
         <div id="follow" class="text svg-container">
           <svg

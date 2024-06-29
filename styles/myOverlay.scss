@@ -52,7 +52,7 @@
   }
 
   #data-container {
-    clip-path: polygon(0% 0%, 98% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(2% 0%, 98% 0%, 100% 100%, 0% 100%);
     transform: translateX(-5%);
   }
 
@@ -76,6 +76,24 @@
   display: flex;
   align-items: flex-end;
 
+  #clock-container {
+    position: relative;
+    display: flex;
+    flex: 0.7;
+    z-index: 3;
+    height: 100%;
+
+    #hour-clock {
+      position: absolute;
+      z-index: 2;
+    }
+
+    #min-clock {
+      position: absolute;
+      z-index: 1;
+    }
+  }
+
   #time-container {
     display: flex;
     justify-content: center;
@@ -87,7 +105,7 @@
 
   #data-container {
     flex: 3;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     justify-content: space-around;
     align-items: center;

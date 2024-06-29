@@ -1,5 +1,5 @@
 // @ts-ignore
-let instance: any = null;
+let twitchInstance: any = null;
 let position: string | null;
 
 type particleType = {
@@ -16,30 +16,81 @@ function formatTime(time: number): string {
 }
 
 function setTime() {
-  const time = document.getElementById("time");
+  const minRef = document.getElementById("min-clock");
+  const hourRef = document.getElementById("hour-clock");
 
   const current = new Date();
+  let min = current.getMinutes();
+  let hour = current.getHours();
 
-  if (time) {
-    time.innerHTML = `${formatTime(current.getHours())}:${formatTime(
-      current.getMinutes()
-    )}`;
+  if (min === 0) {
+    min = 60
   }
+
+  if (hour === 0) {
+    hour = 24
+  }
+
+  const offset = 5
+
+  if (minRef && hourRef) {
+    minRef.style.transform = `translate(-45.5%, 2%) rotate(${offset - ((min - 1) * 360/60)}deg) scale(1.2)`;
+    hourRef.style.transform = `translate(-48%, -8%) rotate(${offset - ((hour - 1) * 360/24)}deg) scale(0.9)`;
+
+    console.log(min, hour, min * 360/60, hour * 360/24)
+
+    setTimeout(() => {
+      minRef.style.transitionDuration = "10s"
+      hourRef.style.transitionDuration = "60s"
+    }, 1000)
+  }
+
+
+  setInterval(() => {
+    const rotageRegex = /(rotate\(-?\d+.?\d*deg\))/
+    const numberRegex = /-?\d+(.\d+)?/
+
+    if (minRef) {
+      const transform = minRef.style.transform.match(rotageRegex);
+      const currentRotation = Number(transform?.[1].match(numberRegex)?.[0]) || 5;
+      
+      minRef.style.transform = `translate(-45.5%, 2%) rotate(${currentRotation - 360/60}deg) scale(1.2)`;
+    }
+
+    if (hourRef) {
+      const transform = hourRef.style.transform.match(rotageRegex);
+      const currentRotation = Number(transform?.[1].match(numberRegex)?.[0]) || 5;
+
+      hourRef.style.transform = `translate(-48%, -8%) rotate(${currentRotation - 360/60/24}deg) scale(0.9)`;
+    }
+  }, 60 * 1000);
 }
 
 function setFollowers() {
-  instance
-    .get(`users/follows?to_id=${user_id}`) // https://api.twitch.tv/helix/follows?to_id=124491073
+  twitchInstance
+    .get(`/channels/followers?broadcaster_id=${user_id}`)
     .then((res: { data: { total: string } }) => {
       const followers = Number(res.data.total);
 
-      const element = document.getElementById("follower-number");
+      const element = document.getElementById("follower-number-twitch");
       if (element) element.innerHTML = followers.toString();
     });
+
+  // @ts-ignore
+  axios({
+    method: "get",
+    url: `https://kick.com/api/v2/channels/mrdiablon`,
+  })
+    .then((res: { data: { followers_count: number } }) => {
+    const followers = res.data.followers_count;
+
+    const element = document.getElementById("follower-number-kick");
+    if (element) element.innerHTML = followers.toString();
+  });
 }
 
 function setViewers() {
-  instance
+  twitchInstance
     .get(`streams?user_id=${user_id}`)
     .then((res: { data: { data: Array<{ viewer_count: number }> } }) => {
       const { data } = res.data;
@@ -76,10 +127,11 @@ window.addEventListener("load", () => {
   // #endregion
 
   // #region time
-  setInterval(() => {
-    setTime();
-  }, 30000);
+  // setInterval(() => {
+  //   setTime();
+  // }, 30000);
 
+  console.log("here")
   setTime();
   // #endregion
 
@@ -92,7 +144,7 @@ window.addEventListener("load", () => {
     const token = res.data.access_token;
 
     // @ts-ignore
-    instance = axios.create({
+    twitchInstance = axios.create({
       baseURL: "https://api.twitch.tv/helix/",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -107,9 +159,8 @@ window.addEventListener("load", () => {
 
   // #region refresh
   setInterval(() => {
-    setTime();
     setViewers();
     setFollowers();
-  }, 300000);
+  }, 5 * 60 * 1000);
   // #endregion
 });
