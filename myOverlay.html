@@ -18,8 +18,11 @@
     <!-- <script src='scripts/main/particle.js'></script> -->
     <script src="scripts/constant/twitch.js"></script>
     <script src="scripts/constant/enum.js"></script>
+    <!-- Add Three.js addons -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
   </head>
   <body>
+    <div id="three-container"></div>
     <div id="bottom">
       <div id="clock-container">
         <img style="transform: translate(-45.5%, 2%) rotate(5deg) scale(1.2);" id="min-clock" class="clock" src="images/60m-clock.png" />
@@ -29,7 +32,7 @@
       <!--<div id="time-container">
         <div id="time" class="text"></div>
       </div>-->
-      <div id="data-container">
+      <!-- <div id="data-container">
         <div id="viewer" class="text svg-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -76,8 +79,8 @@
             <span id="follower-number-kick">-1</span>
           </div>
         </div>
-      </div>
-      <div id="block-container"></div>
+      </div> -->
+      <!-- <div id="block-container"></div> -->
     </div>
   </body>
 </html>
