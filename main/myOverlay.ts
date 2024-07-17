@@ -66,42 +66,7 @@ function setTime() {
   }, 60 * 1000);
 }
 
-function setFollowers() {
-  twitchInstance
-    .get(`/channels/followers?broadcaster_id=${user_id}`)
-    .then((res: { data: { total: string } }) => {
-      const followers = Number(res.data.total);
 
-      const element = document.getElementById("follower-number-twitch");
-      if (element) element.innerHTML = followers.toString();
-    });
-
-  // @ts-ignore
-  axios({
-    method: "get",
-    url: `https://kick.com/api/v2/channels/mrdiablon`,
-  })
-    .then((res: { data: { followers_count: number } }) => {
-    const followers = res.data.followers_count;
-
-    const element = document.getElementById("follower-number-kick");
-    if (element) element.innerHTML = followers.toString();
-  });
-}
-
-function setViewers() {
-  twitchInstance
-    .get(`streams?user_id=${user_id}`)
-    .then((res: { data: { data: Array<{ viewer_count: number }> } }) => {
-      const { data } = res.data;
-      if (data.length > 0) {
-        const viewers = res.data.data[0].viewer_count;
-
-        const element = document.getElementById("viewer-number");
-        if (element) element.innerHTML = viewers.toString();
-      }
-    });
-}
 
 window.addEventListener("load", () => {
   // #region class
@@ -151,16 +116,6 @@ window.addEventListener("load", () => {
         "Client-Id": clientID,
       },
     });
-
-    setFollowers();
-    setViewers();
   });
-  // #endregion
-
-  // #region refresh
-  setInterval(() => {
-    setViewers();
-    setFollowers();
-  }, 5 * 60 * 1000);
   // #endregion
 });
