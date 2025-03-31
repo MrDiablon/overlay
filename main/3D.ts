@@ -51,8 +51,8 @@ function setViewers() {
 
         console.log(tens, units)
 
-        viewersMeshes[0].rotation.x = initialOffset - tens * offsetFace
-        viewersMeshes[1].rotation.x = initialOffset - units * offsetFace
+        viewersMeshes[1].rotation.x = initialOffset - tens * offsetFace
+        viewersMeshes[0].rotation.x = initialOffset - units * offsetFace
       }
     });
 }
@@ -61,7 +61,7 @@ window.addEventListener('load', () => {
   // @ts-ignore
   const scene = new THREE.Scene()
   // @ts-ignore
-  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); 
+  const camera = new THREE.PerspectiveCamera( 74, window.innerWidth / window.innerHeight, 1, 1000 ); 
   // @ts-ignore
   const renderer = new THREE.WebGLRenderer({alpha: true});
 
@@ -76,15 +76,21 @@ window.addEventListener('load', () => {
       container.appendChild(renderer.domElement)
   }
 
-  // creating the loght
+  // creating the light
+  // @ts-ignore
+  const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
+  scene.add(ambientLight);
+
   const color = 0xFFFFFF;
-  const intensity = 3;
+  const intensity = 10;
   // @ts-ignore
   const light = new THREE.DirectionalLight(color, intensity);
-  light.position.set(-1, 2, 4);
+  light.position.set(5,10,5).normalize();
   scene.add(light);
 
   camera.position.z = 10;
+
+  const upOffset = -6.9
 
   // loading pipe
   loader.load( '3d/tube1.glb', function ( gltf: any ) {
@@ -92,11 +98,9 @@ window.addEventListener('load', () => {
       console.log(gltf)
 
       scene.add( gltf.scene );
-      gltf.scene.scale.set(1.3, 1, 1)
-      gltf.scene.rotation.y = Math.PI
-      gltf.scene.rotation.x = -Math.PI / 2
+      gltf.scene.scale.set(1.5, 1, 1)
 
-      gltf.scene.position.set(-0.5, -6.3, 0)
+      gltf.scene.position.set(6, upOffset, 0)
 
   }, undefined, function ( error: any ) {
   
@@ -108,14 +112,14 @@ window.addEventListener('load', () => {
   loader.load('3d/bague1.glb', function (gltf: any) {
     scene.add(gltf.scene)
     viewersMeshes.push(gltf.scene)
-    gltf.scene.position.set(-5, -6.3, 0)
+    gltf.scene.position.set(3, upOffset, 0)
     console.log(gltf)
     gltf.scene.rotation.x = initialOffset
 
     loader.load('3d/bague1.glb', function (gltf: any) {
       scene.add(gltf.scene)
       viewersMeshes.push(gltf.scene)
-      gltf.scene.position.set(-3.7, -6.3, 0)
+      gltf.scene.position.set(1.6, upOffset, 0)
       gltf.scene.rotation.x = initialOffset
 
       setViewers();
@@ -126,7 +130,7 @@ window.addEventListener('load', () => {
   loader.load('3d/bague1.glb', function (gltf: any) {
     scene.add(gltf.scene)
     followersMeshes.push(gltf.scene)
-    gltf.scene.position.set(-0, -6.3, 0)
+    gltf.scene.position.set(7.2, upOffset, 0)
     gltf.scene.rotation.x = initialOffset
 
       
@@ -134,13 +138,13 @@ window.addEventListener('load', () => {
     loader.load('3d/bague1.glb', function (gltf: any) {
       scene.add(gltf.scene)
       followersMeshes.push(gltf.scene)
-      gltf.scene.position.set(1.3, -6.3, 0)
+      gltf.scene.position.set(8.6, upOffset, 0)
       gltf.scene.rotation.x = initialOffset
 
       loader.load('3d/bague1.glb', function (gltf: any) {
         scene.add(gltf.scene)
         followersMeshes.push(gltf.scene)
-        gltf.scene.position.set(2.6, -6.3, 0)
+        gltf.scene.position.set(10, upOffset, 0)
         gltf.scene.rotation.x = initialOffset
 
         setFollowers();
